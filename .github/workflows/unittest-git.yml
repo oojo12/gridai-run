@@ -29,4 +29,4 @@ jobs:
       - uses: gridai-actions/gridai-run@main
         with:
           script-dir: hello
-          script-cmd: hello.py
+          script-name: hello.py
