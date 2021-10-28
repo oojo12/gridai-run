@@ -31,8 +31,11 @@ runs:
   using: "composite"
   steps:
     - run: |
+        cd ${{ inputs.script-dir }}
         pwd
         ls -R
+      shell: bash  
+    - run: |
         cd ${{ inputs.script-dir }}
         grid run ${{ inputs.grid-args }} ${{ inputs.script-name }} ${{ inputs.script-args }} | tee grid.run.log
         export run_name=$(cat grid.run.log | awk -F: '$1=/grid_name/ {print $2}' | tr -s '[:blank:]')
@@ -53,6 +56,7 @@ runs:
         fi             
       shell: bash  
     - run: |
+        cd ${{ inputs.script-dir }}
         grid artifacts ${{ env.run_name }}
         if [[ $? != 0 ]]; then
           echo "Error: ${run_name} artifacts not found"
