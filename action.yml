@@ -6,6 +6,11 @@ inputs:
     default: "run.py"
     type: string   
     description: "The name of the script to run"
+  script-dir:
+    required: false
+    default: "./"
+    type: string   
+    description: "Directory where the script is at"
   # optional    
   grid-args:
     required: false
@@ -26,7 +31,10 @@ runs:
   using: "composite"
   steps:
     - run: |
+        cd ${{ inputs.script-dir }}
         ls
+      shell: bash  
+    - run: |
         grid run ${{ inputs.grid-args }} ${{ inputs.script-name }} ${{ inputs.script-args }} | tee grid.run.log
       shell: bash  
     - run: |

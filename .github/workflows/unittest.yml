@@ -26,5 +26,4 @@ jobs:
           cd hello
           echo "print ('hello'); f = open('weights.pt', 'a'); f.write('fake weights'); f.close()" > run.py
           echo "os" > requirements.txt
-          ls
       - uses: gridai-actions/gridai-run@main
