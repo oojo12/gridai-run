@@ -20,6 +20,8 @@ jobs:
       - uses: actions/checkout@v2     
         with:
           repository: robert-s-lee/hello
+      - run:
+        echo ${GITHUB_WORKSPACE}
       - uses: gridai-actions/gridai-login@main
         with:
           python-version: ${{ matrix.python-version }}
@@ -28,5 +30,5 @@ jobs:
           gridai-key: ${{ secrets.GRIDAI_KEY }}
       - uses: gridai-actions/gridai-run@main
         with:
-          script-dir: hello
+          script-dir: ${GITHUB_WORKSPACE}
           script-name: hello.py
