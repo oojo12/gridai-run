@@ -27,6 +27,7 @@ runs:
   steps:
     - run: |
         grid run ${{ inputs.grid-args }} ${{ inputs.script-name }} ${{ inputs.script-args }} | tee grid.run.log
+      shell: bash  
     - run: |
         export run_name=$(cat grid.run.log | awk -F: '$1=/grid_name/ {print $2}' | tr -s '[:blank:]')
         echo "run_name=${run_name}" >> $GITHUB_ENV           
@@ -34,6 +35,7 @@ runs:
           echo "Error: 'grid_name:[run_name]' not found in output"
           exit 1
         fi        
+      shell: bash  
     - id: grid-status
       uses: gridai-actions/gridai-status@v0
       with:
@@ -43,6 +45,7 @@ runs:
         if [ "${{ steps.grid-status.outputs.obj-status }}" != "${{ inputs.success-status }}" ]; then
           exit 1
         fi             
+      shell: bash  
     - run: |
         grid artifacts ${{ env.run_name }}
         if [[ $? != 0 ]]; then
@@ -50,3 +53,4 @@ runs:
           exit 1
         fi
         ls grid_artifacts/*
+      shell: bash  
