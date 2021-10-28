@@ -26,6 +26,7 @@ runs:
   using: "composite"
   steps:
     - run: |
+        ls
         grid run ${{ inputs.grid-args }} ${{ inputs.script-name }} ${{ inputs.script-args }} | tee grid.run.log
       shell: bash  
     - run: |
