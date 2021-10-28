@@ -1,4 +1,4 @@
-name: 'Grid.ai Run Test'
+name: 'Grid.ai Run Checkout'
 on:
   pull_request:
   push:
@@ -18,14 +18,14 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v2     
+        with:
+          repository: robert-s-lee/hello
       - uses: gridai-actions/gridai-login@main
         with:
           python-version: ${{ matrix.python-version }}
           python-venv: ${{ matrix.python-venv }}
           gridai-username: ${{ secrets.GRIDAI_USERNAME }} 
-          gridai-key: ${{ secrets.GRIDAI_KEY }} 
-      - run: |
-          git clone https://github.com/robert-s-lee/hello
+          gridai-key: ${{ secrets.GRIDAI_KEY }}
       - uses: gridai-actions/gridai-run@main
         with:
           script-dir: hello

@@ -1,4 +1,4 @@
-name: 'Grid.ai Run Test'
+name: 'Grid.ai Run Local Dir'
 on:
   pull_request:
   push:
