@@ -22,8 +22,8 @@ jobs:
           gridai-username: ${{ secrets.GRIDAI_USERNAME }} 
           gridai-key: ${{ secrets.GRIDAI_KEY }} 
       - run: |
-        mkdir hello
-        cd hello
-        echo "print ('hello'); f = open("weights.pt", "a"); f.write("fake weights"); f.close()" > run.py
-        echo "os" > requirements.txt
+          mkdir hello
+          cd hello
+          echo "print ('hello'); f = open("weights.pt", "a"); f.write("fake weights"); f.close()" > run.py
+          echo "os" > requirements.txt
       - uses: gridai-actions/gridai-run@main
