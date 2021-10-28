@@ -1,4 +1,4 @@
-name: 'Grid.ai Login Test'
+name: 'Grid.ai Run Test'
 on:
   pull_request:
   push:
