@@ -33,8 +33,6 @@ runs:
     - run: |
         cd ${{ inputs.script-dir }}
         ls
-      shell: bash  
-    - run: |
         grid run ${{ inputs.grid-args }} ${{ inputs.script-name }} ${{ inputs.script-args }} | tee grid.run.log
       shell: bash  
     - run: |
