@@ -25,7 +25,7 @@ jobs:
           gridai-username: ${{ secrets.GRIDAI_USERNAME }} 
           gridai-key: ${{ secrets.GRIDAI_KEY }} 
       - run: |
-          git clone https://robert-s-lee/hello
+          git clone https://github.com/robert-s-lee/hello
       - uses: gridai-actions/gridai-run@main
         with:
           script-dir: hello
