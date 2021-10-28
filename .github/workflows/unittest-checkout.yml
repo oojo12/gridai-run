@@ -21,7 +21,7 @@ jobs:
         with:
           repository: robert-s-lee/hello
       - run:
-        echo ${GITHUB_WORKSPACE}
+          echo ${GITHUB_WORKSPACE}
       - uses: gridai-actions/gridai-login@main
         with:
           python-version: ${{ matrix.python-version }}
