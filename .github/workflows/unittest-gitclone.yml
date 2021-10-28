@@ -17,7 +17,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v2     
       - uses: gridai-actions/gridai-login@main
         with:
           python-version: ${{ matrix.python-version }}
@@ -26,7 +25,9 @@ jobs:
           gridai-key: ${{ secrets.GRIDAI_KEY }} 
       - run: |
           git clone https://github.com/robert-s-lee/hello
+          pwd
+          ls -R
       - uses: gridai-actions/gridai-run@main
         with:
-          script-dir: hello
+          script-dir: "$(pwd)/hello"
           script-name: hello.py
