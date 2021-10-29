@@ -46,7 +46,6 @@ runs:
     - run: |
         cd ${{ inputs.script-dir }}
         pwd
-        ls -R
       shell: bash  
     - run: |
         cd ${{ inputs.script-dir }}
@@ -70,10 +69,11 @@ runs:
       shell: bash  
     - run: |
         cd ${{ inputs.script-dir }}
+        pwd
         grid artifacts ${{ env.run_name }}
         if [[ $? != 0 ]]; then
           echo "Error: ${run_name} artifacts not found"
           exit 1
         fi
-        ls -R -lia grid_artifacts/*
+        ls -lia grid_artifacts/*
       shell: bash  

@@ -32,4 +32,5 @@ jobs:
           ls -lia
       - uses: gridai-actions/gridai-run@main
         with:
-          script-dir: hello
+          script-dir: $(pwd)/hello
+          script-name: run.py
