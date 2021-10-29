@@ -27,6 +27,19 @@ inputs:
     default: "succeeded"
     type: string               
     description: "grid run status text for successful execution"
+outputs:
+  obj-status:
+    value: ${{ steps.gridai-obj-status.outputs.obj-status }}
+    description: "comma delimited status all of experiments. ex: succeeded,succeeded,stopped"
+  obj-tally:
+    value: ${{ steps.gridai-obj-status.outputs.obj-tally }}
+    description: "comma delimited tally status codes. ex: 2 succeeded,1 stopped"
+  obj-summary:
+    value: ${{ steps.gridai-obj-status.outputs.obj-summary }}
+    description: "comma delimited unique status codes. ex: succeeded,stopped"
+  obj-exit-code:
+    value: ${{ steps.gridai-obj-status.outputs.obj-exit-code }}
+    description: "0 if exited finding the supplied status, 1 otherwise"    
 runs:
   using: "composite"
   steps:
@@ -45,13 +58,13 @@ runs:
           exit 1
         fi  
       shell: bash  
-    - id: grid-status
+    - id: gridai-obj-status
       uses: gridai-actions/gridai-status@v0
       with:
         obj-type: run
         obj-id: ${run_name}
     - run: |
-        if [ "${{ steps.grid-status.outputs.obj-status }}" != "${{ inputs.success-status }}" ]; then
+        if [ -z "$(echo ${{ steps.gridai-obj-status.outputs.obj-summary }} | grep '${{ inputs.success-status }}')" ]; then
           exit 1
         fi             
       shell: bash  
@@ -62,5 +75,5 @@ runs:
           echo "Error: ${run_name} artifacts not found"
           exit 1
         fi
-        ls grid_artifacts/*
+        ls -R -lia grid_artifacts/*
       shell: bash  
