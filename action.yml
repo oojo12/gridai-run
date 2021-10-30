@@ -75,5 +75,5 @@ runs:
           echo "Error: ${run_name} artifacts not found"
           exit 1
         fi
-        ls -lia grid_artifacts/*
+        find grid_artifacts -type f -print | sort
       shell: bash  
