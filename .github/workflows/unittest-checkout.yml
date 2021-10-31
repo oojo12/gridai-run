@@ -1,9 +1,9 @@
 name: 'Grid.ai Run Checkout'
 on:
-  pull_request:
   push:
-    branches:
-      - main
+    paths:
+      - action.yml
+      - .github/workflows/unittest-checkout.yml
 
 jobs:
   unittests:

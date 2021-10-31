@@ -1,9 +1,9 @@
 name: 'Grid.ai Run Local Dir'
 on:
-  pull_request:
   push:
-    branches:
-      - main
+    paths:
+      - action.yml
+      - .github/workflows/unittest-localdir.yml
 
 jobs:
   unittests:

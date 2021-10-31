@@ -1,9 +1,9 @@
 name: 'Grid.ai Run Git Clone'
 on:
-  pull_request:
   push:
-    branches:
-      - main
+    paths:
+      - action.yml
+      - .github/workflows/unittest-gitclone.yml
 
 jobs:
   unittests:
