@@ -29,8 +29,9 @@ jobs:
           cd hello
           echo "print ('hello'); f = open('weights.pt', 'a'); f.write('fake weights'); f.close()" > run.py
           echo "os" > requirements.txt
-          ls -lia
+          echo "CLONE_PWD=$(pwd)"" >> $GITHUB_ENV 
+          ls -R
       - uses: gridai-actions/gridai-run@main
         with:
-          script-dir: $(pwd)/hello
+          script-dir: ${CLONE_PWD}
           script-name: run.py
