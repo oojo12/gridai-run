@@ -1,0 +1,15 @@
+name: 'Run Mac'
+on:
+  push:
+    paths:
+      - action.yml
+      - .github/workflows/workflow-checkout.yml
+      - .github/workflows/unittest-mac.yml
+jobs:
+  login:
+    uses: gridai-actions/gridai-run/.github/workflows/workflow-checkout.yml@main
+    with:
+      os: macos-latest
+    secrets:  
+      gridai-username: ${{ secrets.GRIDAI_USERNAME }} 
+      gridai-key: ${{ secrets.GRIDAI_KEY }}      

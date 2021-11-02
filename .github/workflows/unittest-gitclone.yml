@@ -26,7 +26,7 @@ jobs:
       - run: |
           git clone https://github.com/robert-s-lee/hello
           cd hello
-          echo "CLONE_PWD=$(pwd)" >> $GITHUB_ENV 
+          echo "CLONE_PWD=$(pwd)" >> $GITHUB_ENV
           ls -R
       - uses: gridai-actions/gridai-run@main
         with:
