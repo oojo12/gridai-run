@@ -7,16 +7,17 @@ on:
       - .github/workflows/workflow-gitclone.yml
       - .github/workflows/unittest-ubuntu.yml
 jobs:
-  login:
-    - uses: gridai-actions/gridai-run/.github/workflows/workflow-checkout.yml@main
-      with:
-        os: ubuntu-latest
-      secrets:  
-        gridai-username: ${{ secrets.GRIDAI_USERNAME }} 
-        gridai-key: ${{ secrets.GRIDAI_KEY }}      
-   -  uses: gridai-actions/gridai-run/.github/workflows/workflow-gitclone.yml@main
-      with:
-        os: ubuntu-latest
-      secrets:  
-        gridai-username: ${{ secrets.GRIDAI_USERNAME }} 
-        gridai-key: ${{ secrets.GRIDAI_KEY }}  
+  checkout:
+    uses: gridai-actions/gridai-run/.github/workflows/workflow-checkout.yml@main
+    with:
+      os: ubuntu-latest
+    secrets:  
+      gridai-username: ${{ secrets.GRIDAI_USERNAME }} 
+      gridai-key: ${{ secrets.GRIDAI_KEY }}      
+  gitclone:
+    uses: gridai-actions/gridai-run/.github/workflows/workflow-gitclone.yml@main
+    with:
+      os: ubuntu-latest
+    secrets:  
+      gridai-username: ${{ secrets.GRIDAI_USERNAME }} 
+      gridai-key: ${{ secrets.GRIDAI_KEY }}  
