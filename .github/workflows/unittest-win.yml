@@ -13,3 +13,10 @@ jobs:
     secrets:  
       gridai-username: ${{ secrets.GRIDAI_USERNAME }} 
       gridai-key: ${{ secrets.GRIDAI_KEY }}      
+  gitclone:
+    uses: gridai-actions/gridai-run/.github/workflows/workflow-gitclone.yml@main
+    with:
+      os: windows-latest
+    secrets:  
+      gridai-username: ${{ secrets.GRIDAI_USERNAME }} 
+      gridai-key: ${{ secrets.GRIDAI_KEY }}  

@@ -55,12 +55,15 @@ runs:
   using: "composite"
   steps:
     - run: |
-        cd ${{ inputs.script-dir }}
-        pwd
+        if [ -z "${{ inputs.cluster-name }}" ]; then
+          echo BYOC_CLUSTER="" >> $GITHUB_ENV
+        else
+          echo BYOC_CLUSTER="--cluster ${{ inputs.cluster-name }}" >> $GITHUB_ENV
+        fi
       shell: bash  
     - run: |
         cd ${{ inputs.script-dir }}
-        grid run ${{ inputs.cluster-name }} ${{ inputs.grid-args }} ${{ inputs.script-name }} ${{ inputs.script-args }} | tee grid.run.log
+        grid run ${BYOC_CLUSTER} ${{ inputs.grid-args }} ${{ inputs.script-name }} ${{ inputs.script-args }} | tee grid.run.log
         export run_name=$(cat grid.run.log | awk -F: '$1=/grid_name/ {print $2}' | tr -s '[:blank:]')
         echo "run_name=${run_name}" >> $GITHUB_ENV           
         if [[ -z "${run_name}" ]]; then
