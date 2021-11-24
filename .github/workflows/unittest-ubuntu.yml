@@ -1,6 +1,6 @@
 name: 'Run Ubuntu'
 on:
-  push:
+  pull_request:
     paths:
       - action.yml
       - .github/workflows/workflow-checkout.yml

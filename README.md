@@ -12,3 +12,7 @@ This action performs the following:
 - Download artifacts
 
 
+```
+gridai.py cli "grid run --ignore_warnings hello.py" status_to_kv --gha True
+gridai.py run messy-bhabha-6326
+  def run(self, obj_id:str, obj_status_expr="succeeded|cancelled|failed|stopped", id_is_expr=False, obj_id_col:str="run" , obj_status_col:str="status"):

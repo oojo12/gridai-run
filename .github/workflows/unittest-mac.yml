@@ -1,9 +1,10 @@
 name: 'Run Mac'
 on:
-  push:
+  pull_request:
     paths:
       - action.yml
       - .github/workflows/workflow-checkout.yml
+      - .github/workflows/workflow-gitclone.yml
       - .github/workflows/unittest-mac.yml
 jobs:
   login:

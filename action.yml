@@ -33,6 +33,32 @@ inputs:
     type: string               
     description: "grid run status text for successful execution"
 outputs:
+  # from obj-create step
+  script:
+    value: ${{ steps.gridai-obj-create.outputs.script }}
+    description: "script name"
+  instance_type:
+    value: ${{ steps.gridai-obj-create.outputs.instance_type }}
+    description: "script name"
+  use_spot:
+    value: ${{ steps.gridai-obj-create.outputs.use_spot }}
+    description: "script name"
+  cloud_provider:
+    value: ${{ steps.gridai-obj-create.outputs.cloud_provider }}
+    description: "script name"
+  grid_name:
+    value: ${{ steps.gridai-obj-create.outputs.grid_name }}
+    description: "script name" 
+  datastore_name:
+    value: ${{ steps.gridai-obj-create.outputs.datastore_name }}
+    description: "script name"
+  datastore_version:
+    value: ${{ steps.gridai-obj-create.outputs.datastore_version }}
+    description: "script name"
+  datastore_mount_dir:
+    value: ${{ steps.gridai-obj-create.outputs.datastore_mount_dir }}
+    description: "script name"                            
+  # from obj-status step
   obj-type:
     value: ${{ steps.gridai-obj-status.outputs.obj-type }}
     description: "object id searched for"
@@ -61,30 +87,27 @@ runs:
           echo BYOC_CLUSTER="--cluster ${{ inputs.cluster-name }}" >> $GITHUB_ENV
         fi
       shell: bash  
-    - run: |
+    - id: gridai-obj-create
+      run: |
         cd ${{ inputs.script-dir }}
-        grid run ${BYOC_CLUSTER} ${{ inputs.grid-args }} ${{ inputs.script-name }} ${{ inputs.script-args }} | tee grid.run.log
-        export run_name=$(cat grid.run.log | awk -F: '$1=/grid_name/ {print $2}' | tr -s '[:blank:]')
-        echo "run_name=${run_name}" >> $GITHUB_ENV           
-        if [[ -z "${run_name}" ]]; then
-          echo "Error: 'grid_name:[run_name]' not found in output"
-          exit 1
-        fi  
+        gridai.py cli "grid run --ignore_warnings ${BYOC_CLUSTER} ${{ inputs.grid-args }} ${{ inputs.script-name }} ${{ inputs.script-args }}" status_to_kv --gha True
       shell: bash  
+
     - id: gridai-obj-status
-      uses: gridai-actions/gridai-status@main
-      with:
-        obj-type: run
-        obj-id: ${run_name}
+      run: |
+        gridai.py run ${{ steps.gridai-obj-create.outputs.grid_name }} --gha True
+      shell: bash  
+
     - run: |
         if [ -z "$(echo ${{ steps.gridai-obj-status.outputs.obj-summary }} | grep '${{ inputs.success-status }}')" ]; then
           exit 1
         fi             
       shell: bash  
+
     - run: |
         cd ${{ inputs.script-dir }}
         pwd
-        grid artifacts ${{ env.run_name }}
+        gridai.py cli "grid artifacts ${{ steps.gridai-obj-create.outputs.grid_name }}"
         if [[ $? != 0 ]]; then
           echo "Error: ${run_name} artifacts not found"
           exit 1
