@@ -95,7 +95,7 @@ runs:
 
     - id: gridai-obj-status
       run: |
-        gridai.py run ${{ steps.gridai-obj-create.outputs.grid_name }} --gha True
+        gridai.py run ${{ steps.gridai-obj-create.outputs.grid_name }} --gha True --log_level DEBUG
       shell: bash  
 
     - run: |
