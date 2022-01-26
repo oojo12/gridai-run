@@ -23,4 +23,4 @@ jobs:
       - run: |
           git clone https://github.com/oojo12/gridai-testing
           cd gridai-testing
-          grid run --dockerfile ./Dockerfile ./test.py
+          grid run --instance_type=g4dn.xlarge --dockerfile ./Dockerfile ./test.py
