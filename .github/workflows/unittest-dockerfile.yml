@@ -22,4 +22,5 @@ jobs:
           gridai-key: ${{ secrets.GRIDAI_KEY }} 
       - run: |
           git clone https://github.com/oojo12/gridai-testing
-          grid run --dockerfile ./Dockerfile test.py
+          cd gridai-testing
+          grid run --dockerfile ./Dockerfile ./test.py
