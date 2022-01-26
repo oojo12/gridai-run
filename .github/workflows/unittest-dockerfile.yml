@@ -1,0 +1,25 @@
+name: 'Grid.ai Run with Custom Dockerfile'
+on:
+  push:
+    branches: main
+jobs:
+  unittests:
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        os: [ubuntu-latest]   #, macos-latest,windows-latest]
+        python-version: [3.8] # , 3.9]       
+        python-venv: ["venu"] #,""]       
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: gridai-actions/gridai-login@main
+        with:
+          python-version: ${{ matrix.python-version }}
+          python-venv: ${{ matrix.python-venv }}
+          gridai-username: ${{ secrets.GRIDAI_USERNAME }} 
+          gridai-key: ${{ secrets.GRIDAI_KEY }} 
+      - run: |
+          git clone https://github.com/oojo12/gridai-testing
+          grid run --dockerfile ./Dockerfile test.py
