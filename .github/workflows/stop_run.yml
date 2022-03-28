@@ -1,8 +1,8 @@
 name: 'Grid.ai Terminate Run'
 on:
-  schedule:
+  #schedule:
       # Cronjob schedule documentation (see https://crontab.guru)
-      - cron: '* * * * *'
+  #    - cron: '* * * * *'
   workflow_dispatch:
     inputs:
       run_name:
