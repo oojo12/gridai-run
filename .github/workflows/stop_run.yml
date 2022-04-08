@@ -41,7 +41,7 @@ jobs:
       - name: delete-long-running-run
         run: |
           if [[ "${RUN_DURATION}" > "$${{ github.event.inputs.run_time }}" ]]; then
-            echo "Run duration has exceeded crossed threhold: ${RUN_DURATION} Run is being deleted"
+            echo "Run duration has exceeded crossed threhold: $RUN_DURATION Run: ${{ secrets.RUN_NAME }} is being deleted"
             grid run stop run {{ secrets.RUN_NAME }}
           fi
           done
@@ -49,7 +49,7 @@ jobs:
             running)
               ;;
             *)
-              echo "${{ github.event.inputs.run_name }} is not running"
+              echo "${{ secrets.RUN_NAME }} is not running"
               exit 1
           esac  
       - id: grid-status
