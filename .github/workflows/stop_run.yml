@@ -1,5 +1,8 @@
 name: 'Grid.ai Terminate Run'
 on:
+  push:
+      paths:
+        - .github/workflows/stop_run.yml
   #schedule:
       # Cronjob schedule documentation (see https://crontab.guru)
       #- cron: ${{ secrets.CRON_SCHEDULE }}
