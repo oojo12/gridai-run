@@ -18,9 +18,6 @@ on:
 jobs:
   gridai-actions:
     runs-on: ubuntu-latest
-    env:
-       RUN_STATUS: temp
-       RUN_TIME: -1 
     steps:
       - uses: actions/checkout@v2
       - uses: gridai-actions/gridai-login@v0
@@ -30,8 +27,11 @@ jobs:
       - name: get-run-status
         run: |
           export RUN_STATUS=$(grid status ${{ secrets.RUN_NAME }} | grep ${{ secrets.RUN_NAME }} 
+          echo "Run status : $RUN_STATUS"
           export RUN_FULL_DURATION=$RUN_STATUS | awk '{print $6}')
+          echo "Run duration : $RUN_FULL_DURATION"
           export RUN_DURATION=$RUN_FULL_DURATION | awk '{print $10}'| cut -d 'd' -f 1
+          echo "Run duration : $RUN_DURATION"
         id: run-status          
       - name: print-run-status
         run: |
