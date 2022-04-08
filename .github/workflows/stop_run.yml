@@ -30,7 +30,7 @@ jobs:
       - name: get-run-status
         run: |
           export RUN_STATUS=$(grid status ${{ secrets.RUN_NAME }} | grep ${{ secrets.RUN_NAME }} | awk '{print $6}')
-          export RUN_DURATION=$RUN_STATUS | awk '{print $10}'| cut -d 'd' -f 1"
+          export RUN_DURATION=$RUN_STATUS | awk '{print $10}'| cut -d 'd' -f 1
         id: run-status          
       - name: print-run-status
         run: |
