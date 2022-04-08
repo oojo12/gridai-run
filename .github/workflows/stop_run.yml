@@ -32,7 +32,8 @@ jobs:
           echo EXP_NAME= "${{ github.event.inputs.run_name }}-exp0"           
       - name: get-run-status
         run: |
-         echo "::set-output name=me::hi"
+          echo "::set-output name=me::hi"
+          echo "$(grid status ${{ secrets.RUN_NAME }}| grep ${{ secrets.RUN_NAME }}"
           echo "::set-output name=RUN_STATUS::$(grid status ${{ secrets.RUN_NAME }}| grep ${{ secrets.RUN_NAME }} | awk '{print $6}')"
           echo "::set-output name=RUN_DURATION::$(grid status ${{ secrets.RUN_NAME }} | grep ${{ secrets.RUN_NAME }} | awk '{print $10}'| cut -d 'd' -f 1)"
         id: run-status          
