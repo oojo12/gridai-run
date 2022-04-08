@@ -28,17 +28,10 @@ jobs:
         run: |
           grid status | grep ${{ secrets.RUN_NAME }} >> status.txt
           cat status.txt
-          cat status.txt | awk '{print $6}' > status.txt
+          cat status.txt | awk '{print $6}' >> status.txt
           cat status.txt
-          cat status.txt | cut -d 'd' -f 1 > status.txt
+          cat status.txt | cut -d 'd' -f 1 >> status.txt
           cat status.txt
-        id: run-status          
-      - name: print-run-status
-        run: |
-          echo "Run status : $RUN_STATUS"
-      - name: print-run-full-duration
-        run: |
-          echo "Run duration : $RUN_FULL_DURATION"
       - name: print-run-duration
         run: |
           echo "Run duration : $RUN_DURATION"
