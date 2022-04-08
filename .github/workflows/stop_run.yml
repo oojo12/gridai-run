@@ -2,7 +2,7 @@ name: 'Grid.ai Terminate Run'
 on:
   #schedule:
       # Cronjob schedule documentation (see https://crontab.guru)
-  #    - cron: '* * * * *'
+      #- cron: ${{ secrets.CRON_SCHEDULE }}
   workflow_dispatch:
     inputs:
       run_name:
@@ -42,7 +42,7 @@ jobs:
         run: |
           if [[ "${RUN_DURATION}" > "$${{ github.event.inputs.run_time }}" ]]; then
             echo "Run duration has exceeded crossed threhold: ${RUN_DURATION} Run is being deleted"
-            grid run stop run ${{ secrets.RUN_NAME }}
+            grid run stop run {{ secrets.RUN_NAME }}
           fi
           done
           case ${RUN_STATUS} in
