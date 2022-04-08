@@ -26,7 +26,7 @@ jobs:
           gridai-key: ${{ secrets.GRIDAI_KEY }}         
       - name: get-run-status
         run: |
-          (grid status | grep ${{ secrets.RUN_NAME }} >> status.txt
+          grid status | grep ${{ secrets.RUN_NAME }} >> status.txt
           cat status.txt
           cat status.txt | awk '{print $6}' > status.txt
           cat status.txt
