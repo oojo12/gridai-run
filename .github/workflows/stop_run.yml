@@ -26,12 +26,12 @@ jobs:
           gridai-key: ${{ secrets.GRIDAI_KEY }}         
       - name: get-run-status
         run: |
-          export RUN_STATUS=$(grid status | grep ${{ secrets.RUN_NAME }} 
-          echo "Run status : $RUN_STATUS"
-          export RUN_FULL_DURATION=$RUN_STATUS | awk '{print $6}')
-          echo "Run duration : $RUN_FULL_DURATION"
-          export RUN_DURATION=$RUN_FULL_DURATION | awk '{print $10}'| cut -d 'd' -f 1
-          echo "Run duration : $RUN_DURATION"
+          (grid status | grep ${{ secrets.RUN_NAME }} >> status.txt
+          cat status.txt
+          cat status.txt | awk '{print $6}' > status.txt
+          cat status.txt
+          cat status.txt | cut -d 'd' -f 1 > status.txt
+          cat status.txt
         id: run-status          
       - name: print-run-status
         run: |
