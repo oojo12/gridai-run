@@ -1,5 +1,9 @@
-name: 'Grid.ai Stop Run'
+name: 'Grid.ai Terminate Run'
+
 on:
+  push:
+      paths:
+        - .github/workflows/stop_run.yml
   workflow_dispatch:
     inputs:
       run_name:
