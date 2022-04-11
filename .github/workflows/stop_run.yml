@@ -1,53 +1,43 @@
-name: 'Grid.ai Terminate Run'
+name: 'Grid.ai Stop Run'
 on:
-  push:
-      paths:
-        - .github/workflows/stop_run.yml
-  #schedule:
-      # Cronjob schedule documentation (see https://crontab.guru)
-      #- cron: ${{ secrets.CRON_SCHEDULE }}
   workflow_dispatch:
     inputs:
       run_name:
         required: true
-        default:  "c$(date '+%y%m%d-%H%M%S')"
         type: string
-      run_time:
-        required: true
-        type: int
 jobs:
-  gridai-actions:
+  gridai-run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: gridai-actions/gridai-login@v0
         with:
           gridai-username: ${{ secrets.GRIDAI_USERNAME }} 
-          gridai-key: ${{ secrets.GRIDAI_KEY }}         
-      - name: get-run-status
-        run: |
-          echo "$(grid status | grep ${{ secrets.RUN_NAME }})"
-          echo "(grid status | grep ${{ secrets.RUN_NAME }} | awk '{print $6}')"
-          echo "(grid status | grep ${{ secrets.RUN_NAME }} | awk '{print $6} | cut -d 'd' -f 1')"
-      - name: print-run-duration
-        run: |
-          echo "Run duration : $RUN_DURATION"
+          gridai-key: ${{ secrets.GRIDAI_KEY }}   
+      - run: |
+          export RUN_STATUS_T1=$(grid status ${{ secrets.RUN_NAME }})
+          echo $RUN_STATUS_T1
+          export RUN_STATUS_T2=$(grid status ${{ secrets.RUN_NAME }} | grep ${{ secrets.RUN_NAME }})
+          echo $RUN_STATUS_T2
+          export RUN_STATUS=$(grid status ${{ secrets.RUN_NAME }} | grep ${{ secrets.RUN_NAME }} | awk -F, '{print $2}')
+          export RUN_STATUS5=$($RUN_STATUS_T2 | awk  '{print $6}')
+          export RUN_STATUS2=$(grid status ${{ secrets.RUN_NAME }} | awk  '{print $6}')
+          # 1 mins interval
+          export "RUN_STATUS=${RUN_STATUS} >> $GITHUB_ENV
+          export "RUN_STATUS2=${RUN_STATUS2} >> $GITHUB_ENV
+          export RUN_DURATION=$(grid status ${{ secrets.RUN_NAME }} | grep ${{ secrets.RUN_NAME }} | awk '{print $10}'| cut -d 'd' -f 1)   
+          echo "RUN_DURATION=${RUN_DURATION}" >> $GITHUB_ENV       
       - name: delete-long-running-run
         run: |
-          if [[ "${RUN_DURATION}" > "$${{ github.event.inputs.run_time }}" ]]; then
-            echo "Run duration has exceeded crossed threhold: $RUN_DURATION Run: ${{ secrets.RUN_NAME }} is being deleted"
-            grid run stop run {{ secrets.RUN_NAME }}
-          fi
-          done
-          case ${RUN_STATUS} in
+          case $RUN_STATUS in 
             running)
+              echo "${{ secrets.RUN_NAME }} is running" 
               ;;
             *)
               echo "${{ secrets.RUN_NAME }} is not running"
               exit 1
           esac  
-      - id: grid-status
-        uses: gridai-actions/gridai-status@v0
-        with:
-          obj-type: run
-          obj-id: ${run_name}
+          if [[ "${RUN_DURATION}" > "${{ secrets.RUN_DURATION }}" ]]; then
+            echo "Run duration has exceeded ${RUN_DURATION} ${{ secrets.RUN_NAME }} is being stopped"
+            grid run stop ${{ secrets.RUN_NAME }}
+          fi
